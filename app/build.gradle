@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "SERVER_URL", "https://github-trending-api.now.sh/"
     }
     buildTypes {
         release {
@@ -25,4 +27,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.dagger:dagger:2.25.4'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.25.4'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 }
