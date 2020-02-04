@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gojek.trending.assignment.BR;
 import com.gojek.trending.assignment.R;
@@ -26,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.functions.Consumer;
 
 public class TrendingActivity extends AppCompatActivity implements TrendingRecyclerViewAdapter.OnItemClickListener, ITrendingPresenter.View {
 
