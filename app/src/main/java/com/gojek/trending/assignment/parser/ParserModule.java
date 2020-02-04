@@ -1,10 +1,5 @@
 package com.gojek.trending.assignment.parser;
 
-import android.content.Context;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.gojek.trending.assignment.network.TrendingAPI;
 import com.google.gson.Gson;
 
 import javax.inject.Singleton;
@@ -17,7 +12,7 @@ public class ParserModule {
 
     @Provides
     @Singleton
-    public Gson provideGson(Context context) {
+    public Gson provideGson() {
         return new Gson();
     }
 }

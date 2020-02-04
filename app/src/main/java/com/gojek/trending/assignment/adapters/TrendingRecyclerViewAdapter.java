@@ -57,15 +57,15 @@ public class TrendingRecyclerViewAdapter
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.repository = repositories.get(position);
         holder.binding.setRepository(repositories.get(position));
-        final boolean isExpanded = position==mExpandedPosition;
-        holder.binding.details.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-        holder.binding.shadow.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-        holder.binding.separator.setVisibility(isExpanded?View.GONE:View.VISIBLE);
+        final boolean isExpanded = position == mExpandedPosition;
+        holder.binding.details.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.binding.shadow.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.binding.separator.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
         holder.view.setActivated(isExpanded);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExpandedPosition = isExpanded ? -1:position;
+                mExpandedPosition = isExpanded ? -1 : position;
                 if (null != listener) {
                     listener.onItemClick(holder.repository);
                 }
@@ -90,10 +90,9 @@ public class TrendingRecyclerViewAdapter
             Drawable tempDrawable = context.getResources().getDrawable(R.drawable.dynamic_color_circle);
             GradientDrawable shapeDrawable = (GradientDrawable) tempDrawable;
             shapeDrawable.setColor(Color.parseColor(languageColor));
-            ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(tempDrawable, null, null,null);
+            ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(tempDrawable, null, null, null);
         }
     }
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

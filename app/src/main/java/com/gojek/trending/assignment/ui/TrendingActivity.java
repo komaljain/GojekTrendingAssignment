@@ -147,12 +147,10 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     @Override
     public void onResume() {
         super.onResume();
-        showLoading();
     }
 
     @Override
     public void onPause() {
-        hideLoading();
         super.onPause();
     }
 

@@ -30,10 +30,12 @@ public class TrendingPresenterImpl implements ITrendingPresenter {
     @Inject
     Gson gson;
 
+    @Inject
+    CompositeDisposable disposable;
+
     private Context mContext;
 
     private View view;
-    private CompositeDisposable disposable = new CompositeDisposable();
     private boolean error = false;
 
     private List<Repository> repositoryList;
@@ -114,7 +116,7 @@ public class TrendingPresenterImpl implements ITrendingPresenter {
         view.refreshTrendingList();
     }
 
-    public Disposable getDisposable() {
+    public CompositeDisposable getDisposable() {
         return disposable;
     }
 

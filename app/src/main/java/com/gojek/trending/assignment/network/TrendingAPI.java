@@ -37,7 +37,7 @@ public class TrendingAPI {
     private Context mContext;
 
     public TrendingAPI(Context context) {
-        ((TrendingApplication)context).getAppComponent().inject(this);
+        ((TrendingApplication) context).getAppComponent().inject(this);
 
         this.mContext = context;
     }
@@ -53,7 +53,8 @@ public class TrendingAPI {
                             public void onResponse(JSONArray response) {
                                 if (response != null) {
 
-                                    Type userListType = new TypeToken<ArrayList<Repository>>(){}.getType();
+                                    Type userListType = new TypeToken<ArrayList<Repository>>() {
+                                    }.getType();
                                     List<Repository> repositoryList = gson.fromJson(response.toString(), userListType);
 
                                     emitter.onSuccess(repositoryList);
