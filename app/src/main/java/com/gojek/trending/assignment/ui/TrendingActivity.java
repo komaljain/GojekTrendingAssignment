@@ -72,14 +72,10 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     }
 
     private void initErrorSubscriber() {
-        errorEventBus.getErrorEventObservable().subscribe(new Consumer<Integer>() {
-
-            @Override
-            public void accept(Integer integer) throws Exception {
+        errorEventBus.getErrorEventObservable().subscribe(integer -> {
                 if(integer == ErrorEventBus.ACTION_RETRY_CLICKED) {
                     trendingPresenter.retryClicked();
                 }
-            }
         });
     }
 
@@ -90,10 +86,10 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
 
     @Override
     protected void onStart() {
-        super.onStart();
         hideError();
         showLoading();
         trendingPresenter.getTrendingRepositories();
+        super.onStart();
     }
 
     @Override
@@ -120,7 +116,7 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         List<Repository> repositories = trendingRecyclerViewAdapter.getRepositories();
-        ArrayList<Parcelable> parcelableArrayList = new ArrayList<Parcelable>(repositories);
+        ArrayList<Parcelable> parcelableArrayList = new ArrayList<>(repositories);
         outState.putParcelableArrayList(KEY_TRENDING_LIST, parcelableArrayList);
         super.onSaveInstanceState(outState);
     }
@@ -145,16 +141,6 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void showLoading() {
         binding.shimmerViewContainer.setVisibility(View.VISIBLE);
         binding.shimmerViewContainer.startShimmer();
@@ -164,6 +150,7 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     public void hideLoading() {
         binding.shimmerViewContainer.stopShimmer();
         binding.shimmerViewContainer.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -195,12 +182,9 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
 
     @Override
     public void addSwipeToRefreshList() {
-        binding.refreshTrendingRepositories.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                trendingPresenter.getTrendingRepositories();
-            }
-        });
+        binding.refreshTrendingRepositories.setOnRefreshListener(() ->
+                trendingPresenter.getTrendingRepositories()
+        );
     }
 
 
@@ -213,7 +197,7 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     @Override
     protected void onStop() {
         if (trendingPresenter.getDisposable() != null && !trendingPresenter.getDisposable().isDisposed())
-            trendingPresenter.getDisposable().dispose();
+            trendingPresenter.getDisposable().clear();
         super.onStop();
     }
 }
