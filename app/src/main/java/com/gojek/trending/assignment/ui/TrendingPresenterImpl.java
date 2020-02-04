@@ -1,24 +1,25 @@
 package com.gojek.trending.assignment.ui;
 
 import android.content.Context;
+import android.os.Handler;
 
-import androidx.annotation.NonNull;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.gojek.trending.assignment.application.TrendingApplication;
 import com.gojek.trending.assignment.model.Repository;
 import com.gojek.trending.assignment.network.TrendingAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class TrendingPresenterImpl implements ITrendingPresenter {
@@ -32,6 +33,10 @@ public class TrendingPresenterImpl implements ITrendingPresenter {
     private Context mContext;
     private List<Repository> repositoryList;
 
+    private View view;
+    private Disposable disposable;
+    private boolean error = false;
+
     @Inject
     public TrendingPresenterImpl(Context context) {
         this.mContext = context;
@@ -40,29 +45,79 @@ public class TrendingPresenterImpl implements ITrendingPresenter {
     }
 
     @Override
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public void retryClicked() {
+        view.hideError();
+        view.showLoading();
+        getTrendingRepositories();
+    }
+
+    @Override
     public void getTrendingRepositories() {
-        trendingAPI.getRepositories(getResponseListener(), getErrorListener());
+        disposable = trendingAPI.getRepositories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    Type userListType = new TypeToken<ArrayList<Repository>>(){}.getType();
+                    repositoryList = gson.fromJson(response.toString(), userListType);
+                    if (repositoryList != null && repositoryList.size() > 0) {
+                        //The delay is added here so that the shimmer animation can be seen for few seconds,
+                        // as the api loads quickly
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.hideSwipeRefresh();
+                                view.hideLoading();
+                                view.showTrending(repositoryList);
+                            }
+                        }, 200);
+                    } else {
+                        //TODO: handle no data found scenario
+                    }
+                }, throwable -> {
+                    view.hideLoading();
+                    view.showError(throwable.getCause());
+                    view.hideSwipeRefresh();
+                }, () -> {
+                    view.hideSwipeRefresh();
+                    view.hideLoading();
+                });
     }
 
-    @NonNull
-    private Response.Listener<JSONArray> getResponseListener() {
-        return new Response.Listener<JSONArray>() {
+    @Override
+    public void sortRepositoriesByName() {
+        Collections.sort(repositoryList, new Comparator<Repository>() {
             @Override
-            public void onResponse(JSONArray response) {
-                Type userListType = new TypeToken<ArrayList<Repository>>(){}.getType();
-                repositoryList = gson.fromJson(response.toString(), userListType);
-                //TODO: present the list in recyclerview
+            public int compare(Repository o1, Repository o2) {
+                return o1.getName().compareToIgnoreCase(o2.getName());
             }
-        };
+        });
+        view.refreshTrendingList();
     }
 
-    @NonNull
-    private Response.ErrorListener getErrorListener() {
-        return new Response.ErrorListener() {
+    @Override
+    public void sortRepositoriesByStars() {
+        Collections.sort(repositoryList, new Comparator<Repository>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                //TODO: handle the error here..
+            public int compare(Repository o1, Repository o2) {
+                return Integer.compare(o2.getStars(), o1.getStars());
             }
-        };
+        });
+        view.refreshTrendingList();
+    }
+
+    public Disposable getDisposable() {
+        return disposable;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
     }
 }

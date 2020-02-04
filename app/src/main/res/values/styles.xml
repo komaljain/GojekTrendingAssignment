@@ -1,11 +1,55 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="AppTitle" parent="AppTheme">
+        <item name="android:textSize">21dp</item>
+        <item name="android:textColor">@color/appName</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="ItemName" parent="AppTheme">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/itemText</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="ItemDesc" parent="AppTheme">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/itemText</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="ItemDetailDesc" parent="AppTheme">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/itemText</item>
+        <item name="android:fontFamily">@font/pingfang_sc_regular_font</item>
+    </style>
+    <style name="ItemTopics" parent="AppTheme">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/itemText</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="OutlineButton" parent="AppTheme">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:background">@drawable/outline_border_button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="ErrorTitle" parent="AppTheme">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/errorHeading</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="ErrorDesc" parent="AppTheme">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/errorDescription</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
 </resources>

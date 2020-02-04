@@ -15,12 +15,12 @@ public class Repository implements Parcelable {
     private String description;
     private String language;
     private String languageColor;
-    private String stars;
-    private String forks;
-    private String currentPeriodStars;
+    private int stars;
+    private int forks;
+    private int currentPeriodStars;
     private List<BuiltBy> builtBy;
 
-    public Repository(String author, String name, String avatar, String url, String description, String language, String languageColor, String stars, String forks, String currentPeriodStars, List<BuiltBy> builtBy) {
+    public Repository(String author, String name, String avatar, String url, String description, String language, String languageColor, int stars, int forks, int currentPeriodStars, List<BuiltBy> builtBy) {
         this.author = author;
         this.name = name;
         this.avatar = avatar;
@@ -32,6 +32,98 @@ public class Repository implements Parcelable {
         this.forks = forks;
         this.currentPeriodStars = currentPeriodStars;
         this.builtBy = builtBy;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguageColor() {
+        return languageColor;
+    }
+
+    public void setLanguageColor(String languageColor) {
+        this.languageColor = languageColor;
+    }
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public int getForks() {
+        return forks;
+    }
+
+    public void setForks(int forks) {
+        this.forks = forks;
+    }
+
+    public int getCurrentPeriodStars() {
+        return currentPeriodStars;
+    }
+
+    public void setCurrentPeriodStars(int currentPeriodStars) {
+        this.currentPeriodStars = currentPeriodStars;
+    }
+
+    public List<BuiltBy> getBuiltBy() {
+        return builtBy;
+    }
+
+    public void setBuiltBy(List<BuiltBy> builtBy) {
+        this.builtBy = builtBy;
+    }
+
+    public static Creator<Repository> getCREATOR() {
+        return CREATOR;
     }
 
     @Override
@@ -48,9 +140,9 @@ public class Repository implements Parcelable {
         dest.writeString(this.description);
         dest.writeString(this.language);
         dest.writeString(this.languageColor);
-        dest.writeString(this.stars);
-        dest.writeString(this.forks);
-        dest.writeString(this.currentPeriodStars);
+        dest.writeInt(this.stars);
+        dest.writeInt(this.forks);
+        dest.writeInt(this.currentPeriodStars);
         dest.writeList(this.builtBy);
     }
 
@@ -62,8 +154,9 @@ public class Repository implements Parcelable {
         this.description = in.readString();
         this.language = in.readString();
         this.languageColor = in.readString();
-        this.stars = in.readString();
-        this.currentPeriodStars = in.readString();
+        this.stars = in.readInt();
+        this.forks = in.readInt();
+        this.currentPeriodStars = in.readInt();
         this.builtBy = new ArrayList<BuiltBy>();
         in.readList(this.builtBy, BuiltBy.class.getClassLoader());
     }

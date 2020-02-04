@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="presenter"
+            type="com.gojek.trending.assignment.uiutils.error.ErrorPresenterImpl" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/errorImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/nointernet_connection" />
+            <TextView
+                android:layout_below="@+id/errorImg"
+                style="@style/ErrorTitle"
+                android:id="@+id/errorTitle"
+                android:layout_width="match_parent"
+                android:text="@string/error_title"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_24"
+                android:layout_marginBottom="@dimen/padding_8" />
+            <TextView
+                android:layout_below="@+id/errorTitle"
+                style="@style/ErrorDesc"
+                android:id="@+id/errorDesc"
+                android:layout_width="match_parent"
+                android:text="@string/error_desc"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/retry"
+            style="@style/OutlineButton"
+            android:onClick="@{()->presenter.retryClicked()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/generic_padding"
+            android:text='@string/retry'></Button>
+    </RelativeLayout>
+</layout>

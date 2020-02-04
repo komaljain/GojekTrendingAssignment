@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="generic_padding">16dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_6">6dp</dimen>
+    <dimen name="padding_8">21dp</dimen>
+    <dimen name="padding_21">21dp</dimen>
+    <dimen name="padding_24">24dp</dimen>
+    <dimen name="padding_36">36dp</dimen>
+    <dimen name="item_placeholder_image">32dp</dimen>
+    <dimen name="placeholder_text_height">10dp</dimen>
+</resources>

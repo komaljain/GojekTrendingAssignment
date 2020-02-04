@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="listItemBackground">#DDDDDD</color>
+    <color name="itemText">#52575C</color>
+    <color name="errorHeading">#4A4A4A</color>
+    <color name="errorDescription">#929292</color>
+    <color name="buttonText">#31B057</color>
+    <color name="appName">#25282B</color>
+    <color name="separator">#E8E8E8</color>
 </resources>
