@@ -45,7 +45,7 @@ public class TrendingAPI {
     public Single<List<Repository>> getRepositories() {
         return Single.create(new SingleOnSubscribe<List<Repository>>() {
             @Override
-            public void subscribe(@NonNull final SingleEmitter<List<Repository>> e) throws Exception {
+            public void subscribe(@NonNull final SingleEmitter<List<Repository>> emitter) throws Exception {
                 String url = mContext.getString(R.string.SERVER_URL) + WebRequestAPIs.GET_REPOSITORIES.getURL();
                 JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONArray>() {
@@ -56,14 +56,14 @@ public class TrendingAPI {
                                     Type userListType = new TypeToken<ArrayList<Repository>>(){}.getType();
                                     List<Repository> repositoryList = gson.fromJson(response.toString(), userListType);
 
-                                    e.onSuccess(repositoryList);
+                                    emitter.onSuccess(repositoryList);
                                 }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                e.onError(error);
+                                emitter.onError(error);
                             }
                         }
                 );
