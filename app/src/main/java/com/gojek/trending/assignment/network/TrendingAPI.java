@@ -1,22 +1,35 @@
 package com.gojek.trending.assignment.network;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.gojek.trending.assignment.R;
 import com.gojek.trending.assignment.application.TrendingApplication;
+import com.gojek.trending.assignment.model.Repository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
-import java.util.concurrent.ExecutionException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.annotations.NonNull;
 
 public class TrendingAPI {
+
+    @Inject
+    Gson gson;
 
     @Inject
     RequestQueue requestQueue;
@@ -29,25 +42,34 @@ public class TrendingAPI {
         this.mContext = context;
     }
 
-    public JSONArray newJSONRepositories() throws ExecutionException, InterruptedException {
-        RequestFuture<JSONArray> jsonArrayRequestFuture = RequestFuture.newFuture();
-        String url = mContext.getString(R.string.SERVER_URL) + WebRequestAPIs.GET_REPOSITORIES.getURL();
-        requestQueue.add(new TrendingJSONArrayRequest(url, jsonArrayRequestFuture, jsonArrayRequestFuture));
-        return jsonArrayRequestFuture.get();
+    public Single<List<Repository>> getRepositories() {
+        return Single.create(new SingleOnSubscribe<List<Repository>>() {
+            @Override
+            public void subscribe(@NonNull final SingleEmitter<List<Repository>> e) throws Exception {
+                String url = mContext.getString(R.string.SERVER_URL) + WebRequestAPIs.GET_REPOSITORIES.getURL();
+                JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                if (response != null) {
+
+                                    Type userListType = new TypeToken<ArrayList<Repository>>(){}.getType();
+                                    List<Repository> repositoryList = gson.fromJson(response.toString(), userListType);
+
+                                    e.onSuccess(repositoryList);
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                e.onError(error);
+                            }
+                        }
+                );
+
+                requestQueue.add(jsonObjectRequest);
+            }
+        });
     }
-
-    public Flowable<JSONArray> getRepositories() {
-        return Flowable.defer(
-                () -> {
-                    try {
-                        return Flowable.just(newJSONRepositories());
-                    } catch (InterruptedException | ExecutionException e) {
-                        Log.e("repositories", e.getMessage());
-                        return Flowable.error(e);
-                    }
-                });
-    }
-
-
-
 }
