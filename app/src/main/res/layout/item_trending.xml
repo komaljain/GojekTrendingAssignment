@@ -10,7 +10,7 @@
             type="com.gojek.trending.assignment.model.Repository" />
     </data>
 
-    <LinearLayout
+    <LinearLayout android:animateLayoutChanges="true"
         android:background="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

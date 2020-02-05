@@ -85,6 +85,7 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     protected void onStart() {
         hideError();
         showLoading();
+        binding.recyclerView.setAdapter(null);
         trendingPresenter.getTrendingRepositories();
         super.onStart();
     }
@@ -133,7 +134,6 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
 
     @Override
     public void onItemClick(Repository item) {
-        TransitionManager.beginDelayedTransition(binding.recyclerView);
         trendingRecyclerViewAdapter.notifyDataSetChanged();
     }
 
@@ -147,7 +147,6 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
     public void hideLoading() {
         binding.shimmerViewContainer.stopShimmer();
         binding.shimmerViewContainer.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -183,8 +182,6 @@ public class TrendingActivity extends AppCompatActivity implements TrendingRecyc
                 trendingPresenter.getTrendingRepositories()
         );
     }
-
-
 
     @Override
     public void refreshTrendingList() {
